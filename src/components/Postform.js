@@ -55,7 +55,6 @@ class PostForm extends Component {
               onChange={this.onChange}
               value={this.state.body}
             />
-            <textarea name="body" />
           </div>
           <br />
           <button type="submit">Submit</button>
@@ -68,4 +67,7 @@ class PostForm extends Component {
 PostForm.propTypes = {
   createPost: PropTypes.func.isRequired
 };
-export default connect(null, { createPost })(PostForm);
+export default connect(
+  null,
+  { createPost }
+)(PostForm);
