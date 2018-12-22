@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Redux w/out React Example</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.1/redux.js"></script>
+  </head>
+  <body>
+    <div id="count">_</div>
+    <button id="inc-button">Increment +</button>
+    <button id="dec-button">Decrement -</button>
+    <script>
+      const incrementAction = {
+        type: "INCREMENT"
+      };
+
+      const decrementAction = {
+        type: "DECREMENT"
+      };
+
+      function increment() {
+        return { ...incrementAction };
+      }
+
+      function decrement() {
+        return { ...decrementAction };
+      }
+
+      function reducer(state, action) {
+        if (state == null) {
+          return 0;
+        }
+
+        if (!action) {
+          return state;
+        }
+
+        switch (action.type) {
+          case "INCREMENT":
+            return state + 1;
+          case "DECREMENT":
+            return state - 1;
+          default:
+            return state;
+        }
+      }
+
+      const store = Redux.createStore(reducer);
+      const countElement = document.getElementById("count");
+      const incButton = document.getElementById("inc-button");
+      const decButton = document.getElementById("dec-button");
+
+      function render() {
+        countElement.innerHTML = store.getState();
+      }
+
+      render();
+      store.subscribe(render);
+
+      incButton.addEventListener("click", () => {
+        store.dispatch(increment());
+      });
+      decButton.addEventListener("click", () => {
+        store.dispatch(decrement());
+      });
+    </script>
+  </body>
+</html>
