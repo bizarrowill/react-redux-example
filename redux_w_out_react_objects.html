@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Redux basic example</title>
+    <script src="https://unpkg.com/redux@latest/dist/redux.min.js"></script>
+  </head>
+  <body>
+    <input id="firstName" type="text" placeholder="First Name" />
+    <input id="lastName" type="text" placeholder="Last Name" />
+    <p id="display"></p>
+    <script>
+      const defaultState = {
+        firstName: "",
+        lastName: ""
+      };
+
+      function reducer(state, action) {
+        if (state == null) {
+          return defaultState;
+        }
+
+        if (!action) {
+          return state;
+        }
+
+        switch (action.type) {
+          case "CHANGE_FIRST_NAME":
+            return { ...state, firstName: action.firstName };
+          case "CHANGE_LAST_NAME":
+            return { ...state, lastName: action.lastName };
+          default:
+            return state;
+        }
+      }
+
+      const store = Redux.createStore(reducer);
+      const firstNameInput = document.getElementById("firstName");
+      const lastNameInput = document.getElementById("lastName");
+      const display = document.getElementById("display");
+
+      function render() {
+        const { firstName, lastName } = store.getState();
+        display.innerHTML = `Name: ${firstName} ${lastName}`;
+      }
+
+      render();
+      store.subscribe(render);
+
+      firstNameInput.addEventListener(
+        "change",
+        e => {
+          store.dispatch({
+            type: "CHANGE_FIRST_NAME",
+            firstName: e.target.value
+          });
+        },
+        false
+      );
+
+      lastNameInput.addEventListener(
+        "change",
+        e => {
+          store.dispatch({
+            type: "CHANGE_LAST_NAME",
+            lastName: e.target.value
+          });
+        },
+        false
+      );
+    </script>
+  </body>
+</html>
